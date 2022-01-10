@@ -3,7 +3,6 @@ import UserError from '../errors/UserError';
 import * as userService from '../services/userService';
 
 async function signUp (req: Request, res: Response) {
-
     const {
         name,
         email,
@@ -25,10 +24,32 @@ async function signUp (req: Request, res: Response) {
         if (error instanceof UserError) {
             return res.status(400).send(error.message);
         }
-    }
 
+        console.error(error);
+        return res.sendStatus(500);
+    }
+}
+
+async function signIn (req: Request, res: Response) {
+    const {
+        email,
+        password
+    } = req.body;
+
+    try {
+        const token = await userService.login(email, password);
+        return res.status(200).send({ token });
+    } catch (error) {
+        if (error instanceof UserError) {
+            return res.status(400).send(error.message);
+        }
+
+        console.error(error);
+        return res.sendStatus(500);
+    }
 }
 
 export {
     signUp,
+    signIn
 }

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/server.ts\"",
+    "migrate": "npx ts-node src/migrate",
     "build": "npx tsc --outDir dist"
   },
   "dependencies": {
@@ -15,7 +16,8 @@
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.41"
+    "typeorm": "^0.2.41",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -24,6 +26,7 @@
     "@types/faker": "^5.5.9",
     "@types/jest": "^27.0.3",
     "@types/pg": "^8.6.1",
+    "@types/uuid": "^8.3.4",
     "faker": "^5.5.3",
     "jest": "^27.4.4",
     "ts-jest": "^27.1.1",
