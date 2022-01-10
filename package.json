@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/server.ts\"",
-    "migrate": "npx ts-node src/migrate",
+    "db:migrate": "npx ts-node src/migrate",
+    "db:init": "docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=pokedex -p 5433:5432 --name \"pokedex_db\" postgres:alpine",
+    "db:start": "npm run db:init && sleep 2 && npm run db:migrate",
+    "db:stop": "docker stop \"pokedex_db\" && docker container rm pokedex_db",
     "build": "npx tsc --outDir dist"
   },
   "dependencies": {
