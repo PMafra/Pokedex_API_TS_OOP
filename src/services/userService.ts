@@ -1,17 +1,20 @@
 import { getRepository } from 'typeorm';
 import UserEntity from '../entities/UserEntity';
-import bcrypt from 'bcrypt';
-import { v4 as uuid } from "uuid";
+import BcryptAdapter from '../utils/BcryptAdapter';
+import UIAdapter from '../utils/UIAdapter';
 
 import UserError from '../errors/UserError';
 import SessionEntity from '../entities/SessionEntiy';
+
+const encrypt = new BcryptAdapter(12);
+const uuid = new UIAdapter('v4');
 
 async function create (name: string, email: string, password: string): Promise<UserEntity> {
     const existUser = await getRepository(UserEntity).findOne({ email });
     if (existUser) {
         throw new UserError('Usuário já existe');
     }
-    const encryptedPassword = bcrypt.hashSync(password, 10);
+    const encryptedPassword = encrypt.encrypt(password);
     const result = await getRepository(UserEntity).create({
         name,
         email,
@@ -32,11 +35,11 @@ async function login (email: string, password: string): Promise<string> {
         throw new UserError('Usuário e/ou senha inválidos!');
     }
 
-    if (!bcrypt.compareSync(password, user.password)) {
+    if (!encrypt.compare(password, user.password)) {
         throw new UserError('Usuário e/ou senha inválidos!');
     }
 
-    const token = uuid();
+    const token = uuid.generate();
     const newSession = await getRepository(SessionEntity).create({
         user,
         token,
