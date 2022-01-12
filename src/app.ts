@@ -10,8 +10,8 @@ const app = express();
 app.use(cors())
 app.use(express.json())
 
-/* app.post('/sign-up', userController.signUp);
-app.post('/sign-in', userController.signIn); */
+app.post('/sign-up', userController.signUp);
+app.post('/sign-in', userController.signIn);
 
 app.get('/pokemon', pokemonController.list);
 app.get('/pokemon/:id', pokemonController.getById);

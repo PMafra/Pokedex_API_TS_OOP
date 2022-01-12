@@ -1,4 +1,4 @@
-import connection from '../database';
+/* import connection from '../database';
 
 async function create (name: string, email: string, password: string) {
     const result = await connection.query(
@@ -29,3 +29,4 @@ export {
     create,
     findByEmail,
 }
+ */
