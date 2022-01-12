@@ -1,13 +1,16 @@
-import pg from 'pg';
+import { getConnectionManager } from 'typeorm';
 
-const { Pool } = pg;
+export async function connectionDatabase () {
+    const connectionManager = await getConnectionManager();
+    const connection = connectionManager.create({
+        url: 'postgres://postgres:123456@localhost:5433/pokedex',
+        type: 'postgres',
+        entities: ['./src/entities/*.ts'],
+        name: 'default'
+    })
 
-const connection = new Pool({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_SCHEMA,
-});
+    await connection.connect();
+    console.log('Conectado')
+}
 
-export default connection;
+

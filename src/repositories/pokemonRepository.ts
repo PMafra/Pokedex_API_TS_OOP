@@ -1,4 +1,4 @@
-import database from "../database";
+/* import database from "../database";
 
 import ConflictError from "../errors/ConflictError";
 import NotFoundError from "../errors/NotFoundError";
@@ -72,3 +72,4 @@ export {
   update,
   destroy,
 }
+ */
