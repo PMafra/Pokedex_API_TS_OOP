@@ -5,6 +5,7 @@ import * as pokemonService from "../services/pokemonService";
 import ConflictError from "../errors/ConflictError";
 import NotFoundError from "../errors/NotFoundError";
 
+
 async function list (req: Request, res: Response) {
   try {
     const pokemon = await pokemonService.list();
