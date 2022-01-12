@@ -4,7 +4,7 @@ import PokemonEntity from '../entities/PokemonEntity';
 import ConflictError from "../errors/ConflictError";
 import NotFoundError from "../errors/NotFoundError";
 
-async function list () {
+async function list (): Promise<PokemonEntity[]> {
   const pokemonList = await getRepository(PokemonEntity).find();
   return pokemonList;
 }
@@ -19,7 +19,7 @@ async function getById (id: number) {
   return pokemon;
 }
 
-async function create (name: string) {
+async function create (name: string): Promise<PokemonEntity> {
   const pokemon = await getRepository(PokemonEntity).findOne({ name });
 
   if (pokemon) {
@@ -31,7 +31,7 @@ async function create (name: string) {
   return newPokemon;
 }
 
-async function update (id: number, name: string) {
+async function update (id: number, name: string): Promise<PokemonEntity> {
   const pokemon = await getRepository(PokemonEntity).findOne({ id });
 
   if (!pokemon) {
@@ -50,7 +50,7 @@ async function update (id: number, name: string) {
   return updatedPokemon;
 }
 
-async function destroy (id: number) {
+async function destroy (id: number): Promise<void> {
   const pokemon = await getRepository(PokemonEntity).findOne({ id });
 
   if (!pokemon) {

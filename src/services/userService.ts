@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid";
 import UserError from '../errors/UserError';
 import SessionEntity from '../entities/SessionEntiy';
 
-async function create (name: string, email: string, password: string) {
+async function create (name: string, email: string, password: string): Promise<UserEntity> {
     const existUser = await getRepository(UserEntity).findOne({ email });
     if (existUser) {
         throw new UserError('Usuário já existe');
@@ -25,7 +25,7 @@ async function create (name: string, email: string, password: string) {
     return result;
 }
 
-async function login (email: string, password: string) {
+async function login (email: string, password: string): Promise<string> {
     const user = await getRepository(UserEntity).findOne({ email });
 
     if (!user) {
