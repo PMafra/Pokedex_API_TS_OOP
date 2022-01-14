@@ -1,6 +1,14 @@
 import { Request, Response } from 'express';
 import UserError from '../errors/UserError';
-import * as userService from '../services/userService';
+import UserService from '../services/UserService';
+import UserEntity from '../entities/UserEntity';
+import BcryptAdapter from '../adapters/BcryptAdapter';
+import UIAdapter from '../adapters/UIAdapter';
+
+const encrypt = new BcryptAdapter(12);
+const uuid = new UIAdapter('v4');
+
+const service = new UserService(UserEntity, encrypt, uuid);
 
 async function signUp (req: Request, res: Response) {
     const {
@@ -18,7 +26,7 @@ async function signUp (req: Request, res: Response) {
             return res.status(400).send('Email não válido');
         }
     
-        await userService.create(name, email, password);
+        await service.create(name, email, password);
         return res.status(200).send('Usuário criado')
     } catch (error) {
         if (error instanceof UserError) {
@@ -37,7 +45,7 @@ async function signIn (req: Request, res: Response) {
     } = req.body;
 
     try {
-        const token = await userService.login(email, password);
+        const token = await service.login(email, password);
         return res.status(200).send({ token });
     } catch (error) {
         if (error instanceof UserError) {
